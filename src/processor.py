@@ -14,7 +14,7 @@ user_requests = HhAPI()
 def introduce() -> str:
     result = user_interface.introduce()
     if result == 1:
-        step = 'get_info'
+        step = 'get_region'
     elif result == 0:
         step = 'exit'
     return step

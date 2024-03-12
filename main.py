@@ -4,7 +4,7 @@ from src.processor import *
 
 def main():
 
-    user_step = 'get_region'
+    user_step = 'intro'
 
     while user_step != 'exit':
 
