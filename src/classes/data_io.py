@@ -2,6 +2,7 @@ import json
 from abc import ABC, abstractmethod
 import os
 
+
 class Data_IO(ABC):
 
     @abstractmethod
@@ -9,24 +10,25 @@ class Data_IO(ABC):
         pass
 
     @abstractmethod
-    def write(self):
+    def write(self, data: list):
         pass
 
     @abstractmethod
-    def append_string(self):
+    def append_string(self, data_string: dict):
         pass
 
     @abstractmethod
-    def delete_string(self):
+    def delete_string(self, data_string: dict):
         pass
 
     @abstractmethod
-    def update_string(self):
+    def update_string(self, data_string: dict):
         pass
 
     @abstractmethod
     def print(self):
         pass
+
 
 class Json_IO(Data_IO):
 
@@ -46,8 +48,12 @@ class Json_IO(Data_IO):
         data = self.read()
         data.append(data_string)
         self.write(data)
+
     def delete_string(self, data_string: dict):
         data = self.read()
+        if not data:
+            print('File is empty')
+            return
         for i, string in enumerate(data):
             if string['id'] == data_string['id']:
                 del data[i]
@@ -55,6 +61,9 @@ class Json_IO(Data_IO):
 
     def update_string(self, data_string: dict):
         data = self.read()
+        if not data:
+            print('File is empty')
+            return
         for i, string in enumerate(data):
             if string['id'] == data_string['id']:
                 data[i] = data_string

@@ -21,8 +21,8 @@ class HhAPI(JobsAPI):
     def get_region_id(self) -> (bool, list | str):
 
         command = 'suggests/areas/'
-        params_string = f'text={self.params.get('region_name')}'
-        result = self.make_request(command, params_string)
+        params = {'text':self.params.get('region_name')}
+        result = self.make_request(command, params)
         answer = result.json()
 
         if result.status_code != 200:
@@ -37,12 +37,12 @@ class HhAPI(JobsAPI):
     def get_vacancies(self):
 
         command = 'vacancies/'
-        params_string = 'page=0'
-        params_string = params_string + "&only_with_salary=true"
-        params_string = params_string + f'&area={self.params.get('region_id')}'
-        params_string = params_string + f'&text={self.params.get('keywords')}'
-        params_string = params_string + f'&per_page={self.params.get('vacancies_amount')}'
-        result = self.make_request(command, params_string)
+        params = {'page': 0,
+                  'only_with_salary': True,
+                  'area': self.params.get('region_id'),
+                  'text': self.params.get('keywords'),
+                  'per_page': self.params.get('vacancies_amount')}
+        result = self.make_request(command, params)
         answer = result.json()
 
         if result.status_code != 200:
@@ -54,7 +54,7 @@ class HhAPI(JobsAPI):
         if result.status_code == 200:
             return True, answer['items']
 
-    def make_request(self, command:str, params: str) -> object:
+    def make_request(self, command:str, params: dict) -> object:
 
         result = requests.get(f'https://api.hh.ru/{command}', params=params)
         return result
